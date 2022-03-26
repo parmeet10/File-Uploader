@@ -1,0 +1,26 @@
+{
+  "name": "wobot-assignment",
+  "version": "1.0.0",
+  "description": "api's for user detials and csv uploads",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parmeet10/wobot-assignment.git"
+  },
+  "author": "parmeet singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parmeet10/wobot-assignment/issues"
+  },
+  "homepage": "https://github.com/parmeet10/wobot-assignment#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.2.8",
+    "nodemon": "^2.0.15"
+  }
+}
