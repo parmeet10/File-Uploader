@@ -16,5 +16,9 @@ class UserRepository {
             });
             return user
     }
+    async findByUsername(username){
+        const user = await User.find({"username":username})
+        return user
+    }
 }
 export default UserRepository;

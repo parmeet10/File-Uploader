@@ -8,12 +8,17 @@ class UserService {
         lastname,
         username,
         password
-        ) {
-        try {
+    ) {
+        try {   
+            const existingUser = await  new UserRepository().findByUsername(username);
+            if(!existingUser.length) {
             const bcrypt = new Bcrypt();
-            const hashPassword =  await bcrypt.encrypt(password);
+            const hashPassword = await bcrypt.encrypt(password);
             const user = await new UserRepository().save(firstname, lastname, username, hashPassword)
             return user;
+            }
+            else 
+            throw new Error("user already exist! For login try 'http://localhost:3000/users/signup' ")
         }
         catch (err) {
             throw err
@@ -22,9 +27,24 @@ class UserService {
     async login(
         username,
         password
-    ){
-        try{}
-        catch(err){}
+    ) {
+        try {
+            const user = await new UserRepository().findByUsername(username)
+            if(!user.length){
+                throw new Error("cannot find user with this username")
+            }
+            else{
+                const comparePassword = await new Bcrypt().decrypt(password,user[0].password)
+                if(comparePassword){
+                    return user
+                }
+                else throw new Error("either username or password is incorrect")
+            }
+            
+        }
+        catch (err) { 
+            throw err 
+        }
     }
 }
 export default UserService;

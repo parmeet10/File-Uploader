@@ -58,8 +58,10 @@ class UserController {
             if (password.length < 3 && password.length > 20)
                 throw new Error("password inappropriate");
             const _username = username.toLowerCase();
-            const userService = new UserService();
-            const user = await new UserService().login(_username,password);
+            const userObj = await new UserService().login(_username,password);
+            console.log(userObj[0].id)
+            const token = await new JsonWebToken().sign({ data: userObj.id });
+            return res.status(200).send({ message: "login successfull",  token: token })
         }
         catch (err) {
             console.log(err);

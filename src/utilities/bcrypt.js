@@ -15,7 +15,7 @@ class Bcrypt {
         throw err;
     }
        }
-    async decrypt(password) {
+    async decrypt(password,hash) {
         try {
             const result = await bcrypt.compare(password,hash);
             return result;
