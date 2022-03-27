@@ -1,4 +1,5 @@
 import Bcrypt from "../utilities/bcrypt.js";
+import csv from "csvtojson"
 import UserRepository from "../repository/userRepository.js";
 class UserService {
     constructor() { }
@@ -45,6 +46,19 @@ class UserService {
         catch (err) { 
             throw err 
         }
+    }
+    async fileUpload(req){
+        let sucess= false
+        csv().fromFile(req.file.path).then((jsonObj)=>{  
+            sucess = true
+            const fileStats =  new UserRepository().fileSave(jsonObj,req.user.id)
+            return sucess;
+        })
+        
+    }
+    async userFile(req,res){
+        const userFiles = await new UserRepository().userFile(req.user.id)
+        return userFiles;
     }
 }
 export default UserService;

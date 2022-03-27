@@ -71,10 +71,19 @@ class UserController {
         }
     }
     async fileUpload(req, res) {
-        if (req.file)
-            return res.status(200).send({ fileStatus:"submitted",filename:req.file.filename,path:req.file.path })
-        else
-            return res.status(200).send({ message: "unable to upload file" })
+        
+        const uploadedFile = await new UserService().fileUpload(req, res)
+         const token = await new JsonWebToken().sign({ id: req.user.data });
+        res.status(200).send({ data: "file uploaded successfully",token:token })
+
+    }
+    async userFiles(req,res){
+        const userFiles =  await new UserService().userFile(req);
+        if(userFiles.length){
+            res.status(200).send({message:"files found",data:userFiles})
+        }
+        else 
+        return res.status(400).send({message:"no files found for this user"})
     }
 }
 export default UserController
