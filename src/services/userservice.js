@@ -18,7 +18,7 @@ class UserService {
             return user;
             }
             else 
-            throw new Error("user already exist! For login try 'http://localhost:3000/users/signup' ")
+            throw new Error("User already exist! For login try 'http://localhost:3000/users/signup' ")
         }
         catch (err) {
             throw err
@@ -31,14 +31,14 @@ class UserService {
         try {
             const user = await new UserRepository().findByUsername(username)
             if(!user.length){
-                throw new Error("cannot find user with this username")
+                throw new Error("Cannot find user with this username")
             }
             else{
                 const comparePassword = await new Bcrypt().decrypt(password,user[0].password)
                 if(comparePassword){
                     return user
                 }
-                else throw new Error("either username or password is incorrect")
+                else throw new Error("Either username or password is incorrect")
             }
             
         }

@@ -1,14 +1,14 @@
-import JWT from "../utilities/jwt";
+import JWT from "../utilities/jwt.js";
 
-class AuthMiddleware {
+class AuthorizeMiddleware {
     constructor() {
 
     }
     authenticate(req, res, next) {
         try {
             const token = req.headers.token;
-            if(!token) return res.status(401).send({message:"unauthorized to perform this operation"})
-            const decoded = new JWT().decode(token)
+            if(!token) return res.status(401).send({message:"unauthorized to perform this operation"});
+           const decoded = new  JWT().decode(token);
             req.user = decoded;
             next();
 
@@ -19,3 +19,4 @@ class AuthMiddleware {
         }
     }
 }
+export default AuthorizeMiddleware;

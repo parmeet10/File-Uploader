@@ -1,4 +1,5 @@
 import express from "express";
+import bodyParser from 'body-parser'
 import routes from "./routes/index.js"
 
 class Server {
@@ -10,12 +11,13 @@ class Server {
 
     init() {
         this.app.use(express.json());
+        this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use('/', routes);
     }
 
     start() {
-        this.app.listen(this.port,()=>{
+        this.app.listen(this.port, () => {
             console.log(`server started and running on port:${this.port}`)
         });
     }

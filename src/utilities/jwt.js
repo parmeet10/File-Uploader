@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken'
-
-class JsonWebToken {
+class JWT {
     constructor() {
         this.secret = process.env.SECRET || '1qaz@2wsx#102938'
     };
 
-    async sign(payload) {
+     sign(payload) {
         try {
             if (!payload) throw new Error('payload is missing in JWT.sign()');
             if (typeof payload !== 'object') throw new Error('object is required in payload.');
@@ -17,10 +16,10 @@ class JsonWebToken {
         }
     }
 
-    async decode(payload) {
+     decode(payload) {
         try {
             if (!payload) throw new Error('payload is missing in JWT.decode()');
-            const decoded = jwt.verify(payload, this.secret, {algorithms: 'HS256'});
+            const decoded = jwt.verify(payload, this.secret, { algorithm: 'HS256' });
             return decoded;
         }
         catch (err) {
@@ -28,4 +27,4 @@ class JsonWebToken {
         }
     }
 }
-export default JsonWebToken;
+export default JWT

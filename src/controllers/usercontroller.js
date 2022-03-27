@@ -1,10 +1,13 @@
 import UserService from "../services/userservice.js";
 import JsonWebToken from "../utilities/jwt.js";
+
+
 class UserController {
     constructor() { }
 
     async signup(req, res) {
         try {
+            console.log(req.file)
             const {
                 firstname,
                 lastname,
@@ -23,7 +26,7 @@ class UserController {
             if (!username)
                 throw new Error("username required");
             if (username.length < 2 || username.length > 50)
-                throw new Error("firstname required");
+                throw new Error("username inappropriate ");
             if (!password)
                 throw new Error("password required");
             if (password.length < 3 && password.length > 20)
@@ -52,21 +55,26 @@ class UserController {
             if (!username)
                 throw new Error("username required");
             if (username.length < 2 || username.length > 50)
-                throw new Error("firstname required");
+                throw new Error("username inappropriate");
             if (!password)
                 throw new Error("password required");
             if (password.length < 3 && password.length > 20)
                 throw new Error("password inappropriate");
             const _username = username.toLowerCase();
-            const userObj = await new UserService().login(_username,password);
-            console.log(userObj[0].id)
-            const token = await new JsonWebToken().sign({ data: userObj.id });
-            return res.status(200).send({ message: "login successfull",  token: token })
+            const userObj = await new UserService().login(_username, password);
+            const token = await new JsonWebToken().sign({ id: userObj[0].id });
+            return res.status(200).send({ message: "login successfull", token: token })
         }
         catch (err) {
             console.log(err);
             return res.status(401).send(err.message);
         }
+    }
+    async fileUpload(req, res) {
+        if (req.file)
+            return res.status(200).send({ fileStatus:"submitted",filename:req.file.filename,path:req.file.path })
+        else
+            return res.status(200).send({ message: "unable to upload file" })
     }
 }
 export default UserController
