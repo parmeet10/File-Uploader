@@ -19,7 +19,7 @@ class UserService {
             return user;
             }
             else 
-            throw new Error("User already exist! For login try 'http://localhost:3000/users/signup' ")
+            throw new Error("User already exist! For login try 'http://localhost:3000/users/lgin' ")
         }
         catch (err) {
             throw err
